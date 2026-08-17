@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 
 const business = {
@@ -229,7 +232,41 @@ function Stars({
   );
 }
 
+function HamburgerIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    >
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+    >
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  );
+}
+
 function Nav() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   const links = [
     { href: "#menu", label: "Menü" },
     { href: "#hikayemiz", label: "Hikayemiz" },
@@ -257,17 +294,53 @@ function Nav() {
             </a>
           ))}
         </nav>
-        <a
-          href={waLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#25D366]/20 transition-all hover:bg-[#1fb958]"
-        >
-          <WhatsAppIcon className="h-4 w-4" />
-          <span className="hidden sm:inline">Masa Ayırt</span>
-          <span className="sm:hidden">Ayırt</span>
-        </a>
+        <div className="flex items-center gap-2.5">
+          <a
+            href={waLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-2 text-sm font-medium text-white shadow-lg shadow-[#25D366]/20 transition-all duration-300 hover:scale-[1.02] hover:bg-[#1fb958]"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            <span className="hidden sm:inline">Masa Ayırt</span>
+            <span className="sm:hidden">Ayırt</span>
+          </a>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? "Menüyü kapat" : "Menüyü aç"}
+            className="flex h-10 w-10 items-center justify-center rounded-lg text-parchment-100 transition-colors hover:text-gold-300 md:hidden"
+          >
+            {menuOpen ? <CloseIcon /> : <HamburgerIcon />}
+          </button>
+        </div>
       </div>
+      {menuOpen && (
+        <div className="border-t border-gold-500/20 bg-olive-900/95 px-6 pb-6 pt-4 backdrop-blur-md md:hidden">
+          <nav className="flex flex-col gap-1">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setMenuOpen(false)}
+                className="rounded-lg px-3 py-3 text-sm font-medium uppercase tracking-[0.18em] text-parchment-100/80 transition-colors hover:bg-gold-400/10 hover:text-gold-300"
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+          <a
+            href={waLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-[#25D366]/20 transition-all duration-300 hover:bg-[#1fb958]"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            WhatsApp&apos;tan Masa Ayırt
+          </a>
+        </div>
+      )}
     </header>
   );
 }
@@ -320,14 +393,14 @@ function Hero() {
               href={waLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2.5 rounded-full bg-[#25D366] px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[#25D366]/25 transition-all hover:bg-[#1fb958]"
+              className="flex items-center gap-2.5 rounded-full bg-[#25D366] px-8 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[#25D366]/25 transition-all duration-300 hover:scale-[1.02] hover:bg-[#1fb958]"
             >
               <WhatsAppIcon className="h-5 w-5" />
               WhatsApp&apos;tan Masa Ayırt
             </a>
             <a
               href="#menu"
-              className="rounded-full border border-gold-400/50 px-8 py-3.5 text-sm font-semibold tracking-wide text-gold-300 transition-all hover:bg-gold-400/10 hover:border-gold-300"
+              className="rounded-full border border-gold-400/50 px-8 py-3.5 text-sm font-semibold tracking-wide text-gold-300 transition-all duration-300 hover:scale-[1.02] hover:bg-gold-400/10 hover:border-gold-300"
             >
               Menüyü İncele
             </a>
@@ -335,13 +408,13 @@ function Hero() {
         </div>
       </div>
 
-      <div className="relative min-h-[320px] lg:min-h-full">
+      <div className="relative min-h-[320px] overflow-hidden lg:min-h-full">
         <Image
           src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1600&q=80"
           alt="Taş fırında pişen İtalyan pizzası"
           fill
           priority
-          className="object-cover"
+          className="hero-zoom object-cover"
           sizes="(max-width: 1024px) 100vw, 50vw"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-olive-900/50 via-transparent to-transparent" />
@@ -357,9 +430,9 @@ function MenuSection() {
   const categories = Array.from(new Set(menuItems.map((i) => i.category)));
 
   return (
-    <section id="menu" className="scroll-mt-16 bg-parchment-100 py-24">
+    <section id="menu" className="scroll-mt-20 bg-parchment-100 py-24">
       <div className="mx-auto max-w-5xl px-6">
-        <div className="mb-12 text-center">
+        <div className="fade-in mb-12 text-center">
           <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-gold-600">
             Menü
           </p>
@@ -398,8 +471,12 @@ function MenuSection() {
           </span>
         </div>
 
-        {categories.map((cat) => (
-          <div key={cat} className="mb-12 last:mb-0">
+        {categories.map((cat, catIndex) => (
+          <div
+            key={cat}
+            className="fade-in mb-12 last:mb-0"
+            style={{ animationDelay: `${0.1 + catIndex * 0.1}s` }}
+          >
             <div className="mb-7 flex items-center gap-5">
               <h3 className="font-serif text-2xl tracking-[0.08em] text-olive-800">
                 {cat}
@@ -438,9 +515,12 @@ function MenuSection() {
 
 function Story() {
   return (
-    <section id="hikayemiz" className="scroll-mt-16 bg-white py-24">
+    <section id="hikayemiz" className="scroll-mt-20 bg-white py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-16 px-6 lg:grid-cols-2">
-        <div className="relative order-2 lg:order-1">
+        <div
+          className="fade-in relative order-2 lg:order-1"
+          style={{ animationDelay: "0.15s" }}
+        >
           <div className="pointer-events-none absolute -inset-3 border border-gold-500/40" />
           <div className="relative overflow-hidden">
             <Image
@@ -459,7 +539,7 @@ function Story() {
           </div>
         </div>
 
-        <div className="order-1 lg:order-2">
+        <div className="fade-in order-1 lg:order-2">
           <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-gold-600">
             Hikayemiz
           </p>
@@ -502,9 +582,9 @@ function Reviews() {
   const ratingDisplay = business.rating.toFixed(1).replace(".", ",");
 
   return (
-    <section id="yorumlar" className="scroll-mt-16 bg-parchment-100 py-24">
+    <section id="yorumlar" className="scroll-mt-20 bg-parchment-100 py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-14 text-center">
+        <div className="fade-in mb-14 text-center">
           <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-gold-600">
             Yorumlar
           </p>
@@ -514,7 +594,10 @@ function Reviews() {
           <div className="mx-auto mt-5 h-px w-20 bg-gold-400/70" />
         </div>
 
-        <div className="mx-auto mb-12 flex max-w-xl flex-col items-center gap-4 rounded-2xl border border-olive-200 bg-white px-8 py-7 text-center shadow-sm">
+        <div
+          className="fade-in mx-auto mb-12 flex max-w-xl flex-col items-center gap-4 rounded-2xl border border-olive-200 bg-white px-8 py-7 text-center shadow-sm"
+          style={{ animationDelay: "0.1s" }}
+        >
           <div className="flex items-center gap-3">
             <span className="font-serif text-5xl text-olive-900">
               {ratingDisplay}
@@ -539,10 +622,11 @@ function Reviews() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {reviews.map((r) => (
+          {reviews.map((r, i) => (
             <div
               key={r.author}
-              className="flex h-full flex-col rounded-xl border border-olive-200/80 bg-white p-7 shadow-sm transition-shadow hover:shadow-md"
+              className="fade-in flex h-full flex-col rounded-xl border border-olive-200/80 bg-white p-7 shadow-sm transition-all duration-300 hover:shadow-lg"
+              style={{ animationDelay: `${(i % 3) * 0.1}s` }}
             >
               <Stars count={r.stars} />
               <p className="mt-4 flex-1 text-sm leading-relaxed text-olive-800/80">
@@ -564,9 +648,9 @@ function Reviews() {
 
 function Contact() {
   return (
-    <section id="iletisim" className="scroll-mt-16 bg-olive-900 py-24">
+    <section id="iletisim" className="scroll-mt-20 bg-olive-900 py-24">
       <div className="mx-auto max-w-6xl px-6">
-        <div className="mb-14 text-center">
+        <div className="fade-in mb-14 text-center">
           <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-gold-300">
             İletişim
           </p>
@@ -577,7 +661,10 @@ function Contact() {
         </div>
 
         <div className="grid gap-12 lg:grid-cols-2">
-          <div className="flex flex-col justify-center gap-8">
+          <div
+            className="fade-in flex flex-col justify-center gap-8"
+            style={{ animationDelay: "0.1s" }}
+          >
             <div className="flex items-start gap-5">
               <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-gold-500/40 text-gold-300">
                 <svg
@@ -656,7 +743,7 @@ function Contact() {
                 href={waLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-8 py-4 text-sm font-semibold text-white shadow-xl shadow-[#25D366]/20 transition-all hover:bg-[#1fb958]"
+                className="flex flex-1 items-center justify-center gap-2.5 rounded-full bg-[#25D366] px-8 py-4 text-sm font-semibold text-white shadow-xl shadow-[#25D366]/20 transition-all duration-300 hover:scale-[1.02] hover:bg-[#1fb958]"
               >
                 <WhatsAppIcon className="h-5 w-5" />
                 WhatsApp&apos;tan Yazın
@@ -665,14 +752,17 @@ function Contact() {
                 href={mapsLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex flex-1 items-center justify-center gap-2.5 rounded-full border border-gold-400/60 px-8 py-4 text-sm font-semibold text-gold-300 transition-all hover:bg-gold-400/10"
+                className="flex flex-1 items-center justify-center gap-2.5 rounded-full border border-gold-400/60 px-8 py-4 text-sm font-semibold text-gold-300 transition-all duration-300 hover:scale-[1.02] hover:bg-gold-400/10"
               >
                 Yol Tarifi Al
               </a>
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-gold-500/25 shadow-2xl">
+          <div
+            className="fade-in overflow-hidden rounded-2xl border border-gold-500/25 shadow-2xl"
+            style={{ animationDelay: "0.2s" }}
+          >
             <iframe
               title="Italian 1779 Sapanca Konum"
               src={mapsEmbed}

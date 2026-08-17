@@ -14,6 +14,7 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://italian1779.vercel.app"),
   title: "Italian 1779 Sapanca | İtalyan Restoranı",
   description:
     "Sapanca Kırkpınar'da zarif bir İtalyan restoranı. Taş fırın pizzalar, ev yapımı makarnalar, İtalyan tatlıları ve şık bir atmosfer. Masa ayırtmak için hemen WhatsApp'tan yazın.",
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
     locale: "tr_TR",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1200&h=630&fit=crop&q=80",
+        url: "/og.png",
         width: 1200,
         height: 630,
         alt: "Italian 1779 Sapanca",
