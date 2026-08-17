@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-olive-50: #f4f5ef;
+  --color-olive-100: #e8eada;
+  --color-olive-200: #d3d7bf;
+  --color-olive-300: #b3bb96;
+  --color-olive-400: #8c9a6b;
+  --color-olive-500: #68784d;
+  --color-olive-600: #4a5a38;
+  --color-olive-700: #3d4a2f;
+  --color-olive-800: #313b26;
+  --color-olive-900: #252d1d;
+  --color-olive-950: #161b11;
+
+  --color-parchment-50: #faf7ef;
+  --color-parchment-100: #f5f0e3;
+  --color-parchment-200: #ece3cc;
+  --color-parchment-300: #dfd2ae;
+
+  --color-gold-200: #ead9ad;
+  --color-gold-300: #d9c188;
+  --color-gold-400: #c8aa63;
+  --color-gold-500: #b5944a;
+  --color-gold-600: #9a7c38;
+  --color-gold-700: #7c622c;
+
+  --font-serif: var(--font-marcellus), "Georgia", "Times New Roman", serif;
+  --font-sans: var(--font-jost), "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 1.2s ease-out both;
+}
